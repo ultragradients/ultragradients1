@@ -1,0 +1,569 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Snippit Solutions</title>
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🛠️</text></svg>">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://cdn.jsdelivr.net/npm/highlight.js@11.7.0/lib/common.min.js"></script>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@11.7.0/styles/github.min.css">
+  <script src="https://accounts.google.com/gsi/client" async defer></script>
+  <link
+  rel="stylesheet"
+  href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+  />
+  <style>
+    body, html {
+      height: 100%;
+      margin: 0;
+    }
+    .main-content {
+      height: calc(100vh - 56px); /* subtract navbar height */
+      display: flex;
+      overflow: hidden;
+    }
+    .sidebar {
+      flex-shrink: 0;
+      width: 250px;
+      overflow-y: auto;
+      border-right: 1px solid #e5e7eb;
+    }
+    .scroll-area {
+      flex-grow: 1;
+      overflow-y: auto;
+      padding: 1.5rem;
+    }
+    .gradient-btn {
+        color: white;
+        font-weight: 600;
+        border-radius: 0.75rem;
+        padding: 0.5rem 1rem;
+        text-align: center;
+        transition: opacity 0.2s ease;
+        background-color: transparent;
+        border: 1px solid grey;
+        color: grey;
+    }
+
+    .gradient-btn:hover {
+      opacity: 0.85;
+    }
+  </style>
+</head>
+<body class="bg-gray-100 font-sans">
+
+  <!-- Sticky Navbar -->
+  <nav class="sticky top-0 bg-white shadow z-10 p-4 flex justify-between items-center">
+    <h1 class="text-xl font-bold">
+      <span class="bg-gradient-to-r from-pink-500 via-red-500 to-yellow-500 text-transparent bg-clip-text">
+        Snippit
+      </span>
+      Code
+    </h1>
+    <div class="mt-4 mb-2">
+        <a href = "/"  class="block gradient-btn w-full text-center p-2 rounded-xl hover:opacity-85 font-medium clickable">
+        <span class="bg-gradient-to-r from-pink-500 via-red-500 to-yellow-500 text-transparent bg-clip-text">
+        AI
+        </span> Home
+        </a>
+      </div>
+  </nav>
+
+  <div class="main-content">
+
+    <!-- Sidebar Filters -->
+    <aside class="sidebar bg-white p-4 space-y-6 text-sm text-gray-800">
+      <!-- Difficulty -->
+      <div>
+        <h3 class="font-bold mb-2">Difficulty</h3>
+        <ul>
+          <li><label><input type="checkbox" class="filter-checkbox" data-filter="difficulty" value="beginner"> Beginner</label></li>
+          <li><label><input type="checkbox" class="filter-checkbox" data-filter="difficulty" value="intermediate"> Intermediate</label></li>
+          <li><label><input type="checkbox" class="filter-checkbox" data-filter="difficulty" value="advanced"> Advanced</label></li>
+          <li><label><input type="checkbox" class="filter-checkbox" data-filter="difficulty" value="professional"> Professional</label></li>
+        </ul>
+      </div>
+
+      <!-- Code Type -->
+      <div>
+        <h3 class="font-bold mb-2">Code Type</h3>
+        <ul>
+          <li><label><input type="checkbox" class="filter-checkbox" data-filter="codeType" value="search algorithm"> Search Algorithm</label></li>
+          <li><label><input type="checkbox" class="filter-checkbox" data-filter="codeType" value="sort algorithm"> Sort Algorithm</label></li>
+          <li><label><input type="checkbox" class="filter-checkbox" data-filter="codeType" value="function"> Function</label></li>
+          <li><label><input type="checkbox" class="filter-checkbox" data-filter="codeType" value="other"> Other</label></li>
+        </ul>
+      </div>
+
+      <!-- Language -->
+      <div>
+        <h3 class="font-bold mb-2">Language</h3>
+        <ul>
+          <li><label><input type="checkbox" class="filter-checkbox" data-filter="language" value="java"> Java (java)</label></li>
+          <li><label><input type="checkbox" class="filter-checkbox" data-filter="language" value="javascript"> JavaScript (js)</label></li>
+          <li><label><input type="checkbox" class="filter-checkbox" data-filter="language" value="python"> Python (py)</label></li>
+          <li><label><input type="checkbox" class="filter-checkbox" data-filter="language" value="json"> JSON (json)</label></li>
+          <li><label><input type="checkbox" class="filter-checkbox" data-filter="language" value="ruby"> Ruby (rb)</label></li>
+          <li><label><input type="checkbox" class="filter-checkbox" data-filter="language" value="c++"> C++ (cpp)</label></li>
+          <li><label><input type="checkbox" class="filter-checkbox" data-filter="language" value="csharp"> C# (cs)</label></li>
+          <li><label><input type="checkbox" class="filter-checkbox" data-filter="language" value="objective"> Objective Languages</label></li>
+        </ul>
+      </div>
+
+      <hr class="my-4">
+      <div class="mt-4 mb-2">
+      <button onclick="openModal()" type="button" class="block gradient-btn w-full text-center p-2 rounded-xl hover:opacity-85 font-medium clickable bg-transparent">
+        <span class="bg-gradient-to-r from-pink-500 via-red-500 to-yellow-500 text-transparent bg-clip-text">
+          Post a Snip
+        </span>
+      </button>
+      <button
+  id="googleSignInBtn"
+  type="button"
+  class="block gradient-btn w-full text-center p-2 rounded-xl hover:opacity-85 font-medium clickable bg-transparent flex items-center justify-center gap-2"
+>
+  <i class="fa-solid fa-user text-transparent bg-gradient-to-r from-pink-500 via-red-500 to-yellow-500 bg-clip-text"></i>
+  <span class="bg-gradient-to-r from-pink-500 via-red-500 to-yellow-500 text-transparent bg-clip-text">
+    Sign in with Google
+  </span>
+</button>
+    </div>
+    </aside>
+
+    <!-- Scrollable Feed Area -->
+    <main class="scroll-area" id="feed"></main>
+
+  </div>
+
+  <div id="snipModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center hidden z-50">
+    <div class="bg-white rounded-xl shadow-xl w-full max-w-lg p-6 space-y-4 relative">
+      <button onclick="closeModal()" class="absolute top-3 right-3 text-gray-500 hover:text-black text-xl font-bold">&times;</button>
+      <h2 class="text-xl font-bold">Post a Snip</h2>
+      <form id="snipForm">
+      <input type="text" id="title" placeholder="Title" class="w-full p-2 border rounded" />
+      <textarea id="descInput" placeholder="Description" class="w-full p-2 border rounded"></textarea>
+      <input type="text" id="lang" placeholder="Language (e.g., js, python)" class="w-full p-2 border rounded" />
+      <select id="level" class="w-full p-2 border rounded">
+        <option value="beginner">Beginner</option>
+        <option value="intermediate">Intermediate</option>
+        <option value="advanced">Advanced</option>
+        <option value="professional">Professional</option>
+      </select>
+      <textarea id="codeInput" placeholder="Your code here..." class="w-full p-2 border rounded font-mono"></textarea>
+      <div class="flex justify-end gap-2">
+        <button type="button" onclick="closeModal()" class="px-4 py-2 rounded border">Cancel</button>
+        <button type="submit" onclick="postSnip()" class="bg-blue-600 text-white px-4 py-2 rounded">Post</button>
+      </form>
+      </div>
+    </div>
+  </div>
+  <script>
+    let items = [
+  {
+    type: "solution",
+    title: "Merge Sort in JavaScript",
+    description: "An implementation of merge sort.",
+    code: `function mergeSort(arr) {\n  if (arr.length < 2) return arr;\n  const mid = Math.floor(arr.length / 2);\n  const left = mergeSort(arr.slice(0, mid));\n  const right = mergeSort(arr.slice(mid));\n  return merge(left, right);\n}`,
+    language: "javascript",
+    readTime: "short",
+    complexity: "intermediate",
+    codeType: "sort algorithm",
+    timeComplexity: "O(n log n)",
+    spaceComplexity: "O(n)",
+    reusabilityScore: 85
+  },
+  {
+    type: "solution",
+    title: "Binary Search in Python",
+    description: "A binary search function for sorted arrays.",
+    code: `def binary_search(arr, target):\n    low, high = 0, len(arr) - 1\n    while low <= high:\n        mid = (low + high) // 2\n        if arr[mid] == target:\n            return mid\n        elif arr[mid] < target:\n            low = mid + 1\n        else:\n            high = mid - 1\n    return -1`,
+    language: "python",
+    readTime: "short",
+    complexity: "beginner",
+    codeType: "search algorithm",
+    timeComplexity: "O(log n)",
+    spaceComplexity: "O(1)",
+    reusabilityScore: 90
+  },
+  {
+    type: "solution",
+    title: "Reading JSON in Ruby",
+    description: "Safely parsing JSON from a file in Ruby.",
+    code: `require 'json'\nfile = File.read('data.json')\ndata = JSON.parse(file)`,
+    language: "ruby",
+    readTime: "short",
+    complexity: "beginner",
+    codeType: "function",
+    timeComplexity: "O(n)", // n = file size
+    spaceComplexity: "O(n)",
+    reusabilityScore: 70
+  },
+  {
+    type: "solution",
+    title: "Bubble Sort in Python",
+    description: "Basic implementation of the bubble sort algorithm.",
+    code: `def bubble_sort(arr):\n    n = len(arr)\n    for i in range(n):\n        for j in range(0, n-i-1):\n            if arr[j] > arr[j+1]:\n                arr[j], arr[j+1] = arr[j+1], arr[j]`,
+    language: "python",
+    readTime: "short",
+    complexity: "beginner",
+    codeType: "sort algorithm",
+    timeComplexity: "O(n^2)",
+    spaceComplexity: "O(1)",
+    reusabilityScore: 60
+  },
+  {
+    type: "solution",
+    title: "Quick Sort in Java",
+    description: "Efficient sorting using divide-and-conquer.",
+    code: `void quickSort(int[] arr, int low, int high) {\n  if (low < high) {\n    int pi = partition(arr, low, high);\n    quickSort(arr, low, pi - 1);\n    quickSort(arr, pi + 1, high);\n  }\n}`,
+    language: "java",
+    readTime: "medium",
+    complexity: "intermediate",
+    codeType: "sort algorithm",
+    timeComplexity: "O(n log n)",
+    spaceComplexity: "O(log n)",
+    reusabilityScore: 80
+  },
+  {
+    type: "solution",
+    title: "Linear Search in JavaScript",
+    description: "A simple way to find an element in an array.",
+    code: `function linearSearch(arr, val) {\n  for (let i = 0; i < arr.length; i++) {\n    if (arr[i] === val) return i;\n  }\n  return -1;\n}`,
+    language: "javascript",
+    readTime: "short",
+    complexity: "beginner",
+    codeType: "search algorithm",
+    timeComplexity: "O(n)",
+    spaceComplexity: "O(1)",
+    reusabilityScore: 90
+  },
+  {
+    type: "solution",
+    title: "Depth-First Search in Python",
+    description: "Recursive DFS on a graph.",
+    code: `def dfs(graph, node, visited):\n    if node not in visited:\n        visited.add(node)\n        for neighbor in graph[node]:\n            dfs(graph, neighbor, visited)`,
+    language: "python",
+    readTime: "medium",
+    complexity: "intermediate",
+    codeType: "search algorithm",
+    timeComplexity: "O(V + E)",
+    spaceComplexity: "O(V)",
+    reusabilityScore: 85
+  },
+  {
+    type: "solution",
+    title: "Factorial Function in C++",
+    description: "Classic recursion example.",
+    code: `int factorial(int n) {\n  if (n <= 1) return 1;\n  return n * factorial(n - 1);\n}`,
+    language: "c++",
+    readTime: "short",
+    complexity: "beginner",
+    codeType: "function",
+    timeComplexity: "O(n)",
+    spaceComplexity: "O(n)", // due to recursion stack
+    reusabilityScore: 75
+  },
+  {
+    type: "solution",
+    title: "FizzBuzz in Ruby",
+    description: "Classic coding interview question.",
+    code: `(1..100).each do |i|\n  puts i % 15 == 0 ? "FizzBuzz" : i % 3 == 0 ? "Fizz" : i % 5 == 0 ? "Buzz" : i\nend`,
+    language: "ruby",
+    readTime: "short",
+    complexity: "beginner",
+    codeType: "function",
+    timeComplexity: "O(n)",
+    spaceComplexity: "O(1)",
+    reusabilityScore: 70
+  },
+  {
+    type: "solution",
+    title: "HTTP Request in JavaScript (Fetch)",
+    description: "Make an HTTP GET request.",
+    code: `fetch('https://api.example.com/data')\n  .then(res => res.json())\n  .then(data => console.log(data));`,
+    language: "javascript",
+    readTime: "short",
+    complexity: "beginner",
+    codeType: "function",
+    timeComplexity: "O(1)",
+    spaceComplexity: "O(1)",
+    reusabilityScore: 80
+  },
+  {
+    type: "solution",
+    title: "JSON Parsing in Python",
+    description: "Convert a JSON string into a dictionary.",
+    code: `import json\njson_str = '{"name": "Alice", "age": 30}'\ndata = json.loads(json_str)`,
+    language: "python",
+    readTime: "short",
+    complexity: "beginner",
+    codeType: "function",
+    timeComplexity: "O(n)",
+    spaceComplexity: "O(n)",
+    reusabilityScore: 75
+  },
+  {
+    type: "solution",
+    title: "Insertion Sort in C++",
+    description: "Insertion sort implementation for arrays.",
+    code: `void insertionSort(int arr[], int n) {\n  for (int i = 1; i < n; i++) {\n    int key = arr[i];\n    int j = i - 1;\n    while (j >= 0 && arr[j] > key) {\n      arr[j + 1] = arr[j];\n      j = j - 1;\n    }\n    arr[j + 1] = key;\n  }\n}`,
+    language: "c++",
+    readTime: "medium",
+    complexity: "intermediate",
+    codeType: "sort algorithm",
+    timeComplexity: "O(n^2)",
+    spaceComplexity: "O(1)",
+    reusabilityScore: 65
+  },
+  {
+    type: "solution",
+    title: "Lambda Function in Python",
+    description: "Using lambda for inline functions.",
+    code: `square = lambda x: x * x\nprint(square(5))`,
+    language: "python",
+    readTime: "short",
+    complexity: "beginner",
+    codeType: "function",
+    timeComplexity: "O(1)",
+    spaceComplexity: "O(1)",
+    reusabilityScore: 90
+  },
+  {
+    type: "solution",
+    title: "Binary Search Tree Insert in Java",
+    description: "Insert a node into a BST.",
+    code: `public TreeNode insert(TreeNode root, int val) {\n  if (root == null) return new TreeNode(val);\n  if (val < root.val) root.left = insert(root.left, val);\n  else root.right = insert(root.right, val);\n  return root;\n}`,
+    language: "java",
+    readTime: "medium",
+    complexity: "intermediate",
+    codeType: "function",
+    timeComplexity: "O(h)", // h = tree height
+    spaceComplexity: "O(h)",
+    reusabilityScore: 80
+  },
+  {
+    type: "solution",
+    title: "Queue in JavaScript using Array",
+    description: "Basic queue operations.",
+    code: `let queue = [];\nqueue.push(1);\nqueue.push(2);\nconsole.log(queue.shift()); // 1`,
+    language: "javascript",
+    readTime: "short",
+    complexity: "beginner",
+    codeType: "function",
+    timeComplexity: "O(n)", // shift operation is O(n)
+    spaceComplexity: "O(n)",
+    reusabilityScore: 75
+  },
+  {
+    type: "solution",
+    title: "Palindrome Check in Python",
+    description: "Determine if a string is a palindrome.",
+    code: `def is_palindrome(s):\n    return s == s[::-1]`,
+    language: "python",
+    readTime: "short",
+    complexity: "beginner",
+    codeType: "function",
+    timeComplexity: "O(n)",
+    spaceComplexity: "O(n)",
+    reusabilityScore: 85
+  },
+  {
+    type: "solution",
+    title: "Reading a File in C#",
+    description: "Read text from a file.",
+    code: `string content = File.ReadAllText("example.txt");\nConsole.WriteLine(content);`,
+    language: "csharp",
+    readTime: "short",
+    complexity: "beginner",
+    codeType: "function",
+    timeComplexity: "O(n)", // n = file size
+    spaceComplexity: "O(n)",
+    reusabilityScore: 70
+  },
+  {
+    type: "solution",
+    title: "Basic Regex in JavaScript",
+    description: "Test if a string contains digits.",
+    code: `let regex = /\\d+/;\nconsole.log(regex.test("abc123")); // true`,
+    language: "javascript",
+    readTime: "short",
+    complexity: "beginner",
+    codeType: "function",
+    timeComplexity: "O(n)", // input string length
+    spaceComplexity: "O(1)",
+    reusabilityScore: 85
+  },
+  {
+    type: "solution",
+    title: "Merge Two Sorted Lists (Leetcode-style)",
+    description: "Merge two linked lists in Python.",
+    code: `def merge(l1, l2):\n    dummy = ListNode()\n    tail = dummy\n    while l1 and l2:\n        if l1.val < l2.val:\n            tail.next, l1 = l1, l1.next\n        else:\n            tail.next, l2 = l2, l2.next\n        tail = tail.next\n    tail.next = l1 or l2\n    return dummy.next`,
+    language: "python",
+    readTime: "medium",
+    complexity: "advanced",
+    codeType: "function",
+    timeComplexity: "O(n + m)", // n and m = lengths of lists
+    spaceComplexity: "O(1)",
+    reusabilityScore: 85
+  },
+  {
+    type: "solution",
+    title: "Generate Random Number in Java",
+    description: "Use the `Random` class to generate numbers.",
+    code: `import java.util.Random;\nRandom rand = new Random();\nint num = rand.nextInt(100);`,
+    language: "java",
+    readTime: "short",
+    complexity: "beginner",
+    codeType: "function",
+    timeComplexity: "O(1)",
+    spaceComplexity: "O(1)",
+    reusabilityScore: 90
+  },
+  {
+    type: "solution",
+    title: "Sliding Window: Minimum Window Substring",
+    description: "Find the smallest substring of `s` that contains all characters from string `t`. This uses a sliding window with character frequency tracking for efficient search.",
+    code: `from collections import Counter\n\ndef min_window(s, t):\n    if not s or not t:\n        return \"\"\n\n    t_count = Counter(t)\n    window = {}\n    have, need = 0, len(t_count)\n    res, res_len = [-1, -1], float(\"inf\")\n    l = 0\n\n    for r in range(len(s)):\n        c = s[r]\n        window[c] = window.get(c, 0) + 1\n\n        if c in t_count and window[c] == t_count[c]:\n            have += 1\n\n        while have == need:\n            if (r - l + 1) < res_len:\n                res = [l, r]\n                res_len = r - l + 1\n\n            window[s[l]] -= 1\n            if s[l] in t_count and window[s[l]] < t_count[s[l]]:\n                have -= 1\n            l += 1\n\n    l, r = res\n    return s[l:r+1] if res_len != float(\"inf\") else \"\"\n\n# Example:\nprint(min_window(\"ADOBECODEBANC\", \"ABC\"))  # Output: \"BANC\"`,
+    language: "python",
+    readTime: "medium",
+    complexity: "professional",
+    codeType: "function",
+    timeComplexity: "O(n)",
+    spaceComplexity: "O(k)", // k = number of unique chars in t
+    reusabilityScore: 75
+  }
+];
+
+
+    function getDifficultyVisual(level) {
+      switch (level) {
+        case "beginner": return "🟢⚫⚫⚫";
+        case "intermediate": return "🟡🟡⚫⚫";
+        case "advanced": return "🔴🔴🔴⚫";
+        case "professional": return "🟣🟣🟣🟣";
+        default: return "⚫⚫⚫⚫";
+      }
+    }
+
+    function getActiveFilters() {
+      const filters = {
+        difficulty: [],
+        codeType: [],
+        language: []
+      };
+      document.querySelectorAll(".filter-checkbox:checked").forEach(cb => {
+        const key = cb.dataset.filter;
+        filters[key].push(cb.value.toLowerCase());
+      });
+      return filters;
+    }
+
+    function itemMatchesFilters(item, filters) {
+      if (filters.difficulty.length && !filters.difficulty.includes(item.complexity)) return false;
+      if (filters.codeType.length && !filters.codeType.includes(item.codeType || "other")) return false;
+      if (filters.language.length && !filters.language.includes(item.language)) return false;
+      return true;
+    }
+
+    function renderItems() {
+      const feed = document.getElementById("feed");
+      const filters = getActiveFilters();
+      feed.innerHTML = "";
+
+      items.forEach(item => {
+        if (!itemMatchesFilters(item, filters)) return;
+
+        const div = document.createElement("div");
+        div.className = "mb-6 border rounded-xl p-4 bg-white shadow space-y-2";
+
+        const analysisHTML = `
+        <hr>
+          <div class="text-sm text-gray-600">
+            <p>🕒 Time Complexity: <strong>${item.timeComplexity}</strong></p>
+            <p>💾 Space Complexity: <strong>${item.spaceComplexity}</strong></p>
+            <br>
+            <hr>
+            <div class="mt-1">
+              <p class="mb-1">♻️ Reusability Score: ${item.reusabilityScore}%</p>
+              <div class="w-full bg-gray-200 rounded-full h-2.5">
+                <div class="bg-green-500 h-2.5 rounded-full" style="width: ${item.reusabilityScore}%"></div>
+          </div>
+        `;
+
+        div.innerHTML = `
+          <h2 class="text-lg font-semibold">${item.title}</h2>
+          <p class="text-gray-700">${item.description}</p>
+          <pre><code class="language-${item.language}">${item.code}</code></pre>
+          <p class="text-sm text-gray-500">Language: ${item.language.toUpperCase()} | Complexity: ${getDifficultyVisual(item.complexity)} (${item.complexity})</p>
+        `;
+div.innerHTML += analysisHTML;
+
+
+        feed.appendChild(div);
+      });
+
+      hljs.highlightAll();
+    }
+
+    document.querySelectorAll('.filter-checkbox').forEach(cb =>
+      cb.addEventListener('change', renderItems)
+    );
+
+    window.onload = renderItems;
+    function openModal() {
+      document.getElementById("snipModal").classList.remove("hidden");
+    }
+
+    function closeModal() {
+      document.getElementById("snipModal").classList.add("hidden");
+    }
+    document.getElementById("snipForm").addEventListener("submit", function(e) {
+  e.preventDefault(); // This stops the form from refreshing the page
+
+  // collect form data and post
+  const newSnip = {
+    title: document.getElementById("title").value,
+    description: document.getElementById("description").value,
+    code: document.getElementById("code").value,
+    language: document.getElementById("language").value.toLowerCase(),
+    complexity: document.getElementById("complexity").value,
+    readTime: "1 min",
+    codeType: "snippet"
+  };
+
+  items.unshift(newSnip); // add to top of list
+  renderItems(); // re-render list
+  closeModal(); // close the modal
+});
+
+
+  </script>
+  <script>
+  function handleCredentialResponse(response) {
+    // The ID token JWT encoded string:
+    console.log("Encoded JWT ID token: " + response.credential);
+    // You should send this token to your backend for verification and create a session
+    alert("Signed in! Check console for token.");
+  }
+
+  window.onload = function () {
+    google.accounts.id.initialize({
+      client_id: '970152209198-6po8lgphd2bk2ue92noi1qf5gje3j6ep.apps.googleusercontent.com',
+      callback: handleCredentialResponse
+    });
+
+    // Attach event listener to your custom button
+    document.getElementById('googleSignInBtn').addEventListener('click', () => {
+      // Show the Google One Tap or Sign-In prompt
+      google.accounts.id.prompt(notification => {
+        if (notification.isNotDisplayed() || notification.isSkippedMoment()) {
+          alert('Google Sign-In prompt was not displayed or was skipped.');
+        }
+      });
+    });
+  }
+</script>
+
+</body>
+</html>

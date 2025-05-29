@@ -1,0 +1,778 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Snippy AI</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github.min.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+  <script>
+  hljs.highlightAll();
+  </script>
+  <style>
+    img{
+      width: 75px;
+      height: 75px;
+    }
+    .code-block {
+      background-color: #f6f8fa;
+      position: relative;
+    }
+
+    .copy-button {
+      font-family: sans-serif;
+      cursor: pointer;
+      transition: all 0.2s ease-in-out;
+      z-index: 10;
+    }
+      .gradient-btn {
+        background: linear-gradient(144deg, #ff0066, #ff6666, #ff9966, #ffcc66, #ffff66);
+        color: white;
+        font-weight: 600;
+        border-radius: 0.75rem;
+        padding: 0.5rem 1rem;
+        text-align: center;
+        transition: opacity 0.2s ease;
+      }
+
+      .gradient-btn:hover {
+        opacity: 0.85;
+      }
+  </style>
+  <style>
+    
+
+    div.mbox{
+      max-width: 45%;
+    }
+
+
+button.ubtn{
+  align-items: center;
+  background-image: linear-gradient(144deg,#020202, #000000 50%,#090808);
+  border: 0;
+  border-radius: 8px;
+  box-shadow: rgba(255, 154, 118, 0.2) 0 15px 30px -5px;
+  box-sizing: border-box;
+  color: #FFFFFF;
+  display: flex;
+  font-family: system-ui, sans-serif;
+  font-size: 18px;
+  justify-content: center;
+  line-height: 1em;
+  max-width: 100%;
+  min-width: 140px;
+  padding: 3px;
+  text-decoration: none;
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: manipulation;
+  white-space: nowrap;
+  cursor: pointer;
+  transition: all .3s;
+}
+
+button.ubtn{
+  animation:  linear 2s;
+}
+
+button.ubtn.red{
+    align-items: center;
+    background-image: linear-gradient(144deg,#FF9A76, #FF6363 50%,#FF1E62);
+    border: 0;
+    border-radius: 8px;
+    box-shadow: rgba(255, 154, 118, 0.2) 0 15px 30px -5px;
+    box-sizing: border-box;
+    color: #FFFFFF;
+    display: flex;
+    font-family: system-ui, sans-serif;
+    font-size: 18px;
+    justify-content: center;
+    line-height: 1em;
+    max-width: 100%;
+    min-width: 140px;
+    padding: 3px;
+    text-decoration: none;
+    user-select: none;
+    -webkit-user-select: none;
+    touch-action: manipulation;
+    white-space: nowrap;
+    cursor: pointer;
+    transition: all .3s;
+  }
+
+  button.ubtn.blue {
+    align-items: center;
+    background-image: linear-gradient(144deg,#1a84b8, #1a94b8 50%,#1aa4b8);
+    border: 0;
+    border-radius: 8px;
+    box-shadow: rgba(255, 154, 118, 0.2) 0 15px 30px -5px;
+    box-sizing: border-box;
+    color: #FFFFFF;
+    display: flex;
+    font-family: system-ui, sans-serif;
+    font-size: 18px;
+    justify-content: center;
+    line-height: 1em;
+    max-width: 100%;
+    min-width: 140px;
+    padding: 3px;
+    text-decoration: none;
+    user-select: none;
+    -webkit-user-select: none;
+    touch-action: manipulation;
+    white-space: nowrap;
+    cursor: pointer;
+    transition: all .3s;
+  }
+
+  button.ubtn.green {
+    align-items: center;
+    background-image: linear-gradient(144deg,#9dd227, #cbff58 50%,#e5ff9a);
+    border: 0;
+    border-radius: 8px;
+    box-shadow: rgba(255, 154, 118, 0.2) 0 15px 30px -5px;
+    box-sizing: border-box;
+    color: #FFFFFF;
+    display: flex;
+    font-family: system-ui, sans-serif;
+    font-size: 18px;
+    justify-content: center;
+    line-height: 1em;
+    max-width: 100%;
+    min-width: 140px;
+    padding: 3px;
+    text-decoration: none;
+    user-select: none;
+    -webkit-user-select: none;
+    touch-action: manipulation;
+    white-space: nowrap;
+    cursor: pointer;
+    transition: all .3s;
+  }
+
+  button.ubtn.peppermint {
+    align-items: center;
+    background-image: linear-gradient(144deg,#ba0000, #ffe5b9 50%,#ba0000);
+    border: 0;
+    border-radius: 8px;
+    box-shadow: rgba(255, 154, 118, 0.2) 0 15px 30px -5px;
+    box-sizing: border-box;
+    color: #FFFFFF;
+    display: flex;
+    font-family: system-ui, sans-serif;
+    font-size: 18px;
+    justify-content: center;
+    line-height: 1em;
+    max-width: 100%;
+    min-width: 140px;
+    padding: 3px;
+    text-decoration: none;
+    user-select: none;
+    -webkit-user-select: none;
+    touch-action: manipulation;
+    white-space: nowrap;
+    cursor: pointer;
+    transition: all .3s;
+  }
+
+  button.ubtn.tropical {
+    align-items: center;
+    background-image: linear-gradient(144deg,#64c5a5, #c7fdf7 50%,#6dd8db);
+    border: 0;
+    border-radius: 8px;
+    box-shadow: rgba(255, 154, 118, 0.2) 0 15px 30px -5px;
+    box-sizing: border-box;
+    color: #FFFFFF;
+    display: flex;
+    font-family: system-ui, sans-serif;
+    font-size: 18px;
+    justify-content: center;
+    line-height: 1em;
+    max-width: 100%;
+    min-width: 140px;
+    padding: 3px;
+    text-decoration: none;
+    user-select: none;
+    -webkit-user-select: none;
+    touch-action: manipulation;
+    white-space: nowrap;
+    cursor: pointer;
+    transition: all .3s;
+  }
+
+  button.ubtn.nuclear {
+    align-items: center;
+    background-image: linear-gradient(144deg,#545454, #6baa75 50%,#cbff4d);
+    border: 0;
+    border-radius: 8px;
+    box-shadow: rgba(255, 154, 118, 0.2) 0 15px 30px -5px;
+    box-sizing: border-box;
+    color: #FFFFFF;
+    display: flex;
+    font-family: system-ui, sans-serif;
+    font-size: 18px;
+    justify-content: center;
+    line-height: 1em;
+    max-width: 100%;
+    min-width: 140px;
+    padding: 3px;
+    text-decoration: none;
+    user-select: none;
+    -webkit-user-select: none;
+    touch-action: manipulation;
+    white-space: nowrap;
+    cursor: pointer;
+    transition: all .3s;
+  }
+
+  button.ubtn.mocha {
+    align-items: center;
+    background-image: linear-gradient(144deg,#dba75b, #f6edce 50%,#3a170d);
+    border: 0;
+    border-radius: 8px;
+    box-shadow: rgba(255, 154, 118, 0.2) 0 15px 30px -5px;
+    box-sizing: border-box;
+    color: #FFFFFF;
+    display: flex;
+    font-family: system-ui, sans-serif;
+    font-size: 18px;
+    justify-content: center;
+    line-height: 1em;
+    max-width: 100%;
+    min-width: 140px;
+    padding: 3px;
+    text-decoration: none;
+    user-select: none;
+    -webkit-user-select: none;
+    touch-action: manipulation;
+    white-space: nowrap;
+    cursor: pointer;
+    transition: all .3s;
+  }
+
+  button.ubtn.olive {
+    align-items: center;
+    background-image: linear-gradient(144deg,#445626, #6e8b3d 50%,#96b85d);
+    border: 0;
+    border-radius: 8px;
+    box-shadow: rgba(255, 154, 118, 0.2) 0 15px 30px -5px;
+    box-sizing: border-box;
+    color: #FFFFFF;
+    display: flex;
+    font-family: system-ui, sans-serif;
+    font-size: 18px;
+    justify-content: center;
+    line-height: 1em;
+    max-width: 100%;
+    min-width: 140px;
+    padding: 3px;
+    text-decoration: none;
+    user-select: none;
+    -webkit-user-select: none;
+    touch-action: manipulation;
+    white-space: nowrap;
+    cursor: pointer;
+    transition: all .3s;
+  }
+
+  button.ubtn.gold {
+    align-items: center;
+    background-image: linear-gradient(144deg,#ffbf00, #ffcf40 50%, #ffdc73);
+    border: 0;
+    border-radius: 8px;
+    box-shadow: rgba(255, 154, 118, 0.2) 0 15px 30px -5px;
+    box-sizing: border-box;
+    color: #FFFFFF;
+    display: flex;
+    font-family: system-ui, sans-serif;
+    font-size: 18px;
+    justify-content: center;
+    line-height: 1em;
+    max-width: 100%;
+    min-width: 140px;
+    padding: 3px;
+    text-decoration: none;
+    user-select: none;
+    -webkit-user-select: none;
+    touch-action: manipulation;
+    white-space: nowrap;
+    cursor: pointer;
+    transition: all .3s;
+  }
+
+  button.ubtn.rainbow {
+    align-items: center;
+    background-image: linear-gradient(144deg, red, orange, yellow, green, blue, purple, indigo);
+    border: 0;
+    border-radius: 8px;
+    box-shadow: rgba(255, 154, 118, 0.2) 0 15px 30px -5px;
+    box-sizing: border-box;
+    color: #FFFFFF;
+    display: flex;
+    font-family: system-ui, sans-serif;
+    font-size: 18px;
+    justify-content: center;
+    line-height: 1em;
+    max-width: 100%;
+    min-width: 140px;
+    padding: 3px;
+    text-decoration: none;
+    user-select: none;
+    -webkit-user-select: none;
+    touch-action: manipulation;
+    white-space: nowrap;
+    cursor: pointer;
+    transition: all .3s;
+  }
+
+  button.ubtn.retro {
+    align-items: center;
+    background-image: linear-gradient(144deg, #666547, #fb2e01, #6fcb9f, #ffe28a, #fffeb3);
+    border: 0;
+    border-radius: 8px;
+    box-shadow: rgba(255, 154, 118, 0.2) 0 15px 30px -5px;
+    box-sizing: border-box;
+    color: #FFFFFF;
+    display: flex;
+    font-family: system-ui, sans-serif;
+    font-size: 18px;
+    justify-content: center;
+    line-height: 1em;
+    max-width: 100%;
+    min-width: 140px;
+    padding: 3px;
+    text-decoration: none;
+    user-select: none;
+    -webkit-user-select: none;
+    touch-action: manipulation;
+    white-space: nowrap;
+    cursor: pointer;
+    transition: all .3s;
+  }
+
+  button.ubtn.raspberry {
+    align-items: center;
+    background-image: linear-gradient(144deg,#ff0066, #ff6666,#ff9966, #ffcc66, #ffff66);
+    border: 0;
+    border-radius: 8px;
+    box-shadow: rgba(255, 154, 118, 0.2) 0 15px 30px -5px;
+    box-sizing: border-box;
+    color: #FFFFFF;
+    display: flex;
+    font-family: system-ui, sans-serif;
+    font-size: 18px;
+    justify-content: center;
+    line-height: 1em;
+    max-width: 100%;
+    min-width: 140px;
+    padding: 3px;
+    text-decoration: none;
+    user-select: none;
+    -webkit-user-select: none;
+    touch-action: manipulation;
+    white-space: nowrap;
+    cursor: pointer;
+    transition: all .3s;
+  }
+
+  button.ubtn.blackberry {
+    align-items: center;
+    background-image: linear-gradient(144deg,#2b0521, #3e0930, #4f123e, #601a4c, #6b2356);
+    border: 0;
+    border-radius: 8px;
+    box-shadow: rgba(255, 154, 118, 0.2) 0 15px 30px -5px;
+    box-sizing: border-box;
+    color: #FFFFFF;
+    display: flex;
+    font-family: system-ui, sans-serif;
+    font-size: 18px;
+    justify-content: center;
+    line-height: 1em;
+    max-width: 100%;
+    min-width: 140px;
+    padding: 3px;
+    text-decoration: none;
+    user-select: none;
+    -webkit-user-select: none;
+    touch-action: manipulation;
+    white-space: nowrap;
+    cursor: pointer;
+    transition: all .3s;
+  }
+
+  button.ubtn.strawberry {
+    align-items: center;
+    background-image: linear-gradient(144deg,#e53939, #ff8f8f, #ffb7b7, #db1515, #fd5f5f);
+    border: 0;
+    border-radius: 8px;
+    box-shadow: rgba(255, 154, 118, 0.2) 0 15px 30px -5px;
+    box-sizing: border-box;
+    color: #FFFFFF;
+    display: flex;
+    font-family: system-ui, sans-serif;
+    font-size: 18px;
+    justify-content: center;
+    line-height: 1em;
+    max-width: 100%;
+    min-width: 140px;
+    padding: 3px;
+    text-decoration: none;
+    user-select: none;
+    -webkit-user-select: none;
+    touch-action: manipulation;
+    white-space: nowrap;
+    cursor: pointer;
+    transition: all .3s;
+  }
+
+  button.ubtn.lemonade {
+    align-items: center;
+    background-image: linear-gradient(144deg,#f8ff80, #f6ff6c, #f5ff57, #f3ff39, #f0ff00);
+    border: 0;
+    border-radius: 8px;
+    box-shadow: rgba(255, 154, 118, 0.2) 0 15px 30px -5px;
+    box-sizing: border-box;
+    color: #FFFFFF;
+    display: flex;
+    font-family: system-ui, sans-serif;
+    font-size: 18px;
+    justify-content: center;
+    line-height: 1em;
+    max-width: 100%;
+    min-width: 140px;
+    padding: 3px;
+    text-decoration: none;
+    user-select: none;
+    -webkit-user-select: none;
+    touch-action: manipulation;
+    white-space: nowrap;
+    cursor: pointer;
+    transition: all .3s;
+  }
+
+  button.ubtn.citrus {
+    align-items: center;
+    background-image: linear-gradient(144deg,#fff0c1, #f4cb68, #fff0c1, #fff7dd, #fff0c1);
+    border: 0;
+    border-radius: 8px;
+    box-shadow: rgba(255, 154, 118, 0.2) 0 15px 30px -5px;
+    box-sizing: border-box;
+    color: #FFFFFF;
+    display: flex;
+    font-family: system-ui, sans-serif;
+    font-size: 18px;
+    justify-content: center;
+    line-height: 1em;
+    max-width: 100%;
+    min-width: 140px;
+    padding: 3px;
+    text-decoration: none;
+    user-select: none;
+    -webkit-user-select: none;
+    touch-action: manipulation;
+    white-space: nowrap;
+    cursor: pointer;
+    transition: all .3s;
+  }
+
+  button.ubtn.cherry {
+    align-items: center;
+    background-image: linear-gradient(144deg,#5e0013, #83041e, #9a0b20, #b2152d, #c7233c);
+    border: 0;
+    border-radius: 8px;
+    box-shadow: rgba(255, 154, 118, 0.2) 0 15px 30px -5px;
+    box-sizing: border-box;
+    color: #FFFFFF;
+    display: flex;
+    font-family: system-ui, sans-serif;
+    font-size: 18px;
+    justify-content: center;
+    line-height: 1em;
+    max-width: 100%;
+    min-width: 140px;
+    padding: 3px;
+    text-decoration: none;
+    user-select: none;
+    -webkit-user-select: none;
+    touch-action: manipulation;
+    white-space: nowrap;
+    cursor: pointer;
+    transition: all .3s;
+  }
+
+  button.ubtn.airplane {
+    align-items: center;
+    background-image: linear-gradient(144deg,#4d4f48, #595a54, #9aceeb, #f6f4f7, #efeeef);
+    border: 0;
+    border-radius: 8px;
+    box-shadow: rgba(255, 154, 118, 0.2) 0 15px 30px -5px;
+    box-sizing: border-box;
+    color: #FFFFFF;
+    display: flex;
+    font-family: system-ui, sans-serif;
+    font-size: 18px;
+    justify-content: center;
+    line-height: 1em;
+    max-width: 100%;
+    min-width: 140px;
+    padding: 3px;
+    text-decoration: none;
+    user-select: none;
+    -webkit-user-select: none;
+    touch-action: manipulation;
+    white-space: nowrap;
+    cursor: pointer;
+    transition: all .3s;
+  }
+
+  button.ubtn.high-rad{
+    border-radius: 50px;
+    span.button-inner{
+        border-radius: 50px;
+    }
+  }
+
+  button.ubtn.no-rad{
+    border-radius: 0px;
+    span.button-inner{
+        border-radius: 0px;
+    }
+  }
+
+  
+  
+  button:active,
+  button:hover {
+    outline: 0;
+  }
+  
+  button.ubtn  span.ubtn-inner {
+    background-color: rgb(5, 6, 45);
+    padding: 16px 24px;
+    border-radius: 6px;
+    width: 100%;
+    height: 100%;
+    transition: 300ms;
+  }
+  
+  button.ubtn:hover span {
+    background: none;
+    
+  }
+  
+  button.ubtn:active {
+    transform: scale(0.9);
+  }
+
+  .ugrad.airplane{
+    background-image: linear-gradient(144deg,#4d4f48, #595a54, #9aceeb, #f6f4f7, #efeeef);
+  }
+
+  .ugrad{
+    background-image: linear-gradient(144deg,#020202, #000000 50%,#090808);
+  }
+
+  .ugrad.red{
+    background-image: linear-gradient(144deg,#FF9A76, #FF6363 50%,#FF1E62);
+  }
+
+  .ugrad.blue{
+    background-image: linear-gradient(144deg,#1a84b8, #1a94b8 50%,#1aa4b8);
+  }
+
+  .ugrad.green{
+    background-image: linear-gradient(144deg,#9dd227, #cbff58 50%,#e5ff9a);
+  }
+
+  .ugrad.peppermint{
+    background-image: linear-gradient(144deg,#ba0000, #ffe5b9 50%,#ba0000);
+  }
+
+  .ugrad.tropical{
+    background-image: linear-gradient(144deg,#64c5a5, #c7fdf7 50%,#6dd8db);
+  }
+
+  .ugrad.nuclear{
+    background-image: linear-gradient(144deg,#545454, #6baa75 50%,#cbff4d);
+  }
+
+  .ugrad.mocha{
+    background-image: linear-gradient(144deg,#dba75b, #f6edce 50%,#3a170d);
+  }
+
+  .ugrad.olive{
+    background-image: linear-gradient(144deg,#445626, #6e8b3d 50%,#96b85d);
+  }
+
+  .ugrad.gold{
+    background-image: linear-gradient(144deg,#ffbf00, #ffcf40 50%, #ffdc73);
+  }
+
+  .ugrad.soft-black{
+    background-image: linear-gradient(144deg,#414a4c, #353839 50%, #0e1111);
+  }
+
+  .ugrad.soft-black-to-gold{
+    background-image: linear-gradient(144deg,#414a4c, #353839, #0e1111, #ffbf00, #ffcf40, #ffdc73);
+  }
+  </style>
+  <link rel="icon" type="image/x-icon" href="https://ik.imagekit.io/atujiiwqa/Untitled%20design(3).png?updatedAt=1748371768119">
+</head>
+<body class="bg-gray-100 h-screen flex overflow-hidden font-sans">
+
+  <!-- Sidebar -->
+  <div class="w-64 bg-white border-r p-4 flex flex-col">
+    <h2 class="text-xl font-bold mb-4"><img src="https://ik.imagekit.io/atujiiwqa/Untitled%20design(3).png?updatedAt=1748371768119" /></h2>
+    <ul id="chat-list" class="flex-1 overflow-y-auto space-y-2">
+  {% for name in chat_names %}
+    <li>
+      <button onclick="switchChat('{{ name }}')" class="w-full text-left p-2 rounded-xl bg-gray-200 hover:bg-blue-100">
+        {{ name }}
+      </button>
+    </li>
+  {% endfor %}
+</ul>
+
+<!-- Dev Solutions Button -->
+<div class="mt-4 mb-2">
+  <a href="/solutions" class="block gradient-btn w-full text-center p-2 rounded-xl hover:opacity-85 font-medium clickable">
+    Developer Solutions
+  </a>
+</div>
+
+<!-- New Chat Button -->
+<div class="mt-4 mb-2">
+  <a href = "" onclick="createChat()" class="block gradient-btn w-full text-center p-2 rounded-xl hover:opacity-85 font-medium clickable">
+    New Chat
+  </a>
+</div>
+  </div>
+
+  <!-- Main Chat Panel -->
+  <div class="flex-1 flex flex-col">
+    <!-- Chat Messages -->
+    <div id="chat-box" class="flex-1 overflow-y-auto p-6 space-y-3 bg-gray-50">
+      <!-- Messages will appear here -->
+    </div>
+
+    <!-- Chat Input -->
+    <form onsubmit="sendMessage(event)" class="p-4 border-t flex space-x-2 bg-white">
+      <input id="user-input" type="text" placeholder="Ask something..." class="flex-1 p-3 rounded-xl border focus:outline-none"/>
+      <button type="submit" class="ubtn raspberry ugrad-anim"><span class="ubtn-inner">Send</span></button>
+    </form>
+  </div>
+
+  <script>
+    let currentChat = "Chat 1";
+
+    function appendMessage(sender, text) {
+  const chatBox = document.getElementById("chat-box");
+  const msg = document.createElement("div");
+
+  msg.className = "rounded-xl p-3 mbox " +
+    (sender === "You" ? "bg-blue-100 text-blue-900" :
+     sender === "Snippy" ? "bg-green-100 text-green-900" :
+     "bg-gray-100 text-gray-900");
+
+  let html = text.replace(/```(\w*)\n([\s\S]*?)```/g, (_, lang, code) => {
+    const langLabel = lang || "Code";
+    const uid = "code-" + Math.random().toString(36).substr(2, 9);
+    const langClass = lang ? `language-${lang}` : "";
+    const escaped = code.replace(/</g, "&lt;").replace(/>/g, "&gt;");
+    return `
+      <div class="code-block rounded-lg overflow-hidden relative border border-gray-300 bg-gray-100 mt-4 mb-4">
+        <div class="code-header bg-gray-200 text-gray-700 text-xs font-semibold px-3 py-1 flex justify-between items-center">
+          <span>${langLabel}</span>
+          <button onclick="copyToClipboard('${uid}')" class="copy-button text-xs text-gray-600 hover:text-black border border-gray-400 px-2 py-0.5 rounded-md">Copy</button>
+        </div>
+        <pre class="overflow-x-auto m-0 p-3 hljs line-numbers"><code id="${uid}" class="${langClass}">${escaped}</code></pre>
+      </div>`;
+  });
+
+  msg.innerHTML = `<strong>${sender}</strong><hr>${html}`;
+  chatBox.appendChild(msg);
+  chatBox.scrollTop = chatBox.scrollHeight;
+
+  // Highlight newly added code blocks
+  setTimeout(() => {
+    hljs.highlightAll();
+    hljs.initLineNumbersOnLoad?.();
+  }, 0);
+}
+
+
+function copyToClipboard(id) {
+  const codeElement = document.getElementById(id);
+  const text = codeElement.innerText;
+  navigator.clipboard.writeText(text).then(() => {
+    const btn = event.target;
+    btn.innerText = "Copied!";
+    setTimeout(() => (btn.innerText = "Copy"), 1000);
+  });
+}
+    async function sendMessage(event) {
+      if (event) event.preventDefault();
+
+      const input = document.getElementById("user-input");
+      const message = input.value.trim();
+      if (!message) return;
+
+      appendMessage("You", message);
+      input.value = "";
+
+      const res = await fetch("/ask", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ message, chat: currentChat })
+      });
+
+      const data = await res.json();
+      appendMessage("Snippy", data.reply);
+    }
+
+    async function switchChat(chatName) {
+      currentChat = chatName;
+      document.getElementById("chat-box").innerHTML = "";
+
+      const res = await fetch("/get_chat", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ chat: chatName })
+      });
+
+      const data = await res.json();
+      for (const line of data.history) {
+        const [who, ...msgParts] = line.split(": ");
+        // Show Snippy messages as well
+        if (who === "You" || who === "Snippy") {
+          appendMessage(who, msgParts.join(": "));
+        } else {
+          appendMessage(who, msgParts.join(": "));
+        }
+      }
+    }
+
+    function createChat() {
+      const name = prompt("Enter a name for the new chat:");
+      if (!name) return;
+
+      fetch("/", { method: "GET" }) // reset session if needed
+        .then(() => {
+          currentChat = name;
+          if (!document.querySelector(`[data-name="${name}"]`)) {
+            const li = document.createElement("li");
+            li.innerHTML = `<button onclick="switchChat('${name}')" class="w-full text-left p-2 rounded-xl bg-gray-200 hover:bg-blue-100">${name}</button>`;
+            document.getElementById("chat-list").appendChild(li);
+          }
+          switchChat(name);
+        });
+    }
+
+    // Load initial chat
+    window.onload = () => switchChat(currentChat);
+  </script>
+</body>
+</html>
